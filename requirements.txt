@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+pandas
+numpy
+scipy
+opencv-python-headless
+matplotlib
+openpyxl
+xlrd

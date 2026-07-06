@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plate Reader Analyzer</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/plate-reader-static/plate_reader.css">
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">AT</span><span>Assay Toolkit</span></div>
+      <nav class="tool-list" aria-label="Tool navigation">
+        <div class="sidebar-label">Tools</div>
+        <a class="tool-button" href="/">Scratch Assay</a>
+        <a class="tool-button active" href="/plate-reader">Plate Reader Analyzer</a>
+      </nav>
+    </aside>
+    <main class="workspace plate-reader-workspace">
+      <section class="topbar plate-hero">
+        <div>
+          <div class="eyebrow">Plate Reader Analysis</div>
+          <h1>Plate Reader Analyzer</h1>
+          <p>Parse raw plate reader output, label wells, normalize time courses, calculate metrics, preview plots, and export clean analysis files.</p>
+        </div>
+        <div class="hero-actions">
+          <a href="/api/jobs/sample/files/output/flex_like_sample.txt" class="ghost-link" hidden>Sample</a>
+          <button id="analyzeButton" type="button">Analyze</button>
+        </div>
+      </section>
+
+      <section class="panel setup-panel elevated-panel">
+        <div class="section-heading">
+          <div><span class="step-label">1</span><div><h2>Upload Raw File</h2><p>Start with the machine output. The parser will detect wells and reshape the run into tidy data.</p></div></div>
+          <div id="parseStatus" class="status">Waiting for file</div>
+        </div>
+        <div class="upload-zone">
+          <input id="rawFileInput" type="file" accept=".txt,.csv,.tsv,.xls,.xlsx">
+          <div>
+            <strong>Raw plate reader output</strong>
+            <span>Supports TXT, CSV, TSV, XLS, and XLSX with paired well/time columns such as A1T and A1.</span>
+          </div>
+        </div>
+        <div id="parseWarnings" class="warning-list"></div>
+        <div class="plate-summary">
+          <div class="summary-card"><span>Detected wells</span><strong id="detectedWellCount">0</strong></div>
+          <div class="summary-card"><span>Plate ID</span><strong id="plateId">-</strong></div>
+          <div class="summary-card"><span>Rows previewed</span><strong id="previewRowCount">0</strong></div>
+        </div>
+        <div id="detectedWellSummary" class="detected-summary" aria-live="polite"></div>
+        <details class="preview-details">
+          <summary>Preview parsed tidy table</summary>
+          <div class="table-wrap compact-table">
+            <table>
+              <thead id="previewHead"></thead>
+              <tbody id="previewBody"></tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+
+      <section class="panel setup-panel elevated-panel">
+        <div class="section-heading">
+          <div><span class="step-label">2</span><div><h2>Label Plate</h2><p>Drag across wells to select replicates or blocks, then apply labels to the selected wells.</p></div></div>
+          <p id="selectionCount">No wells selected</p>
+        </div>
+        <div class="plate-layout">
+          <div class="plate-shell">
+            <div class="plate-toolbar">
+              <div class="plate-legend">
+                <span><i class="legend-dot detected-dot"></i>Detected</span>
+                <span><i class="legend-dot blank-dot"></i>Blank/control</span>
+                <span><i class="legend-dot selected-dot"></i>Selected</span>
+              </div>
+              <div class="plate-hint">Click or drag across wells. Hold Shift to add to a selection.</div>
+            </div>
+            <div id="plateGrid" class="plate-grid"></div>
+            <div id="labelLegend" class="label-legend"></div>
+          </div>
+          <aside class="label-card">
+            <div class="label-card-header">
+              <h3>Apply Labels</h3>
+              <p>Only filled fields overwrite existing labels.</p>
+            </div>
+            <form id="labelForm" class="label-form">
+              <label>Condition<input name="condition" placeholder="dmso, pdgf"></label>
+              <label>Treatment<input name="treatment" placeholder="compound or stimulus"></label>
+              <label>Dose<input name="dose" placeholder="10 ng/mL"></label>
+              <label>Replicate<input name="replicate" placeholder="1"></label>
+              <label>Group<input name="group" placeholder="plot/stat group"></label>
+              <label>Role
+                <select name="role">
+                  <option value="">sample</option>
+                  <option value="blank">blank</option>
+                  <option value="vehicle">vehicle</option>
+                  <option value="control">control</option>
+                  <option value="treated">treated</option>
+                </select>
+              </label>
+              <label>Notes<input name="notes"></label>
+              <div class="form-actions primary-actions">
+                <button id="applyLabelsButton" type="button">Apply to Selected</button>
+                <button id="clearSelectionButton" type="button">Clear Selection</button>
+              </div>
+              <div class="form-actions">
+                <button id="downloadMapCsvButton" type="button">Export Map CSV</button>
+                <button id="downloadMapJsonButton" type="button">Export Map JSON</button>
+                <label class="import-label">Import Map<input id="mapImportInput" type="file" accept=".csv,.json"></label>
+              </div>
+            </form>
+          </aside>
+        </div>
+      </section>
+
+      <section class="analysis-section elevated-panel">
+        <div class="section-heading">
+          <div><span class="step-label">3</span><div><h2>Analysis Settings</h2><p>Choose how the raw traces should be transformed before summaries and plots are generated.</p></div></div>
+          <div id="analysisStatus" class="status">Ready</div>
+        </div>
+        <form id="settingsForm" class="analysis-settings">
+          <div class="setting-card">
+            <label class="setting-toggle"><input name="blankEnabled" type="checkbox"> <span>Blank subtraction</span></label>
+            <p>Use wells marked role=blank to remove background signal.</p>
+            <label>Blank reference<select name="blankMode"><option value="timepoint">mean at each timepoint</option><option value="overall">single overall mean</option></select></label>
+          </div>
+          <div class="setting-card">
+            <label class="setting-toggle"><input name="baselineEnabled" type="checkbox"> <span>Baseline normalization</span></label>
+            <p>Normalize each well to its own first measured timepoint.</p>
+            <label>Baseline output<select name="baselineMode"><option value="delta">change from baseline</option><option value="fold">fold over baseline</option><option value="percent">percent of baseline</option></select></label>
+          </div>
+          <div class="setting-card">
+            <label class="setting-toggle"><input name="controlEnabled" type="checkbox"> <span>Vehicle/control normalization</span></label>
+            <p>Scale samples against wells marked role=vehicle or role=control.</p>
+            <label>Control reference<select name="controlMode"><option value="timepoint">matched timepoint mean</option><option value="endpoint">single overall mean</option></select></label>
+          </div>
+          <div class="setting-card metric-card">
+            <h3>Metric Windows</h3>
+            <p>Leave blank to use the full trace.</p>
+            <div class="metric-grid">
+              <label>Start<input name="startTime" type="number" step="0.01" placeholder="optional"></label>
+              <label>End<input name="endTime" type="number" step="0.01" placeholder="optional"></label>
+              <label>Early AUC end<input name="earlyEndTime" type="number" step="0.01" placeholder="optional"></label>
+              <label>Late AUC start<input name="lateStartTime" type="number" step="0.01" placeholder="optional"></label>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section id="resultsSection" class="analysis-section" hidden>
+        <div class="section-heading">
+          <div><span class="step-label">4</span><div><h2>Results & Exports</h2><p>Preview summaries, inspect QC warnings, and download clean tables for Prism or downstream analysis.</p></div></div>
+          <div id="downloads" class="downloads"></div>
+        </div>
+        <div id="qcWarnings" class="warning-list"></div>
+        <div class="plot-grid">
+          <div class="closure-plot"><h3>Time Course</h3><div id="timecoursePlot"></div></div>
+          <div class="closure-plot"><h3>Endpoint / Metric</h3><div id="metricPlot"></div></div>
+          <div class="closure-plot"><h3>Plate Heatmap</h3><div id="heatmapPlot"></div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead id="metricsHead"></thead>
+            <tbody id="metricsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading"><h2>Help & Assumptions</h2></div>
+        <p>The parser searches for a header containing standard 96-well names and paired time columns with a T suffix. Blank subtraction uses wells marked role=blank. Vehicle/control normalization uses wells marked role=vehicle or role=control. Statistics are intentionally simple: Welch t-test for two groups, one-way ANOVA for more groups.</p>
+      </section>
+    </main>
+    <script src="/plate-reader-static/plate_reader.js"></script>
+  </body>
+</html>

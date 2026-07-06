@@ -1,0 +1,7 @@
+well,condition,treatment,dose,replicate,group,role,notes
+A1,blank,,,,blank,blank,
+A2,blank,,,,blank,blank,
+A3,blank,,,,blank,blank,
+B1,pdgf,PDGF,10 ng/mL,1,pdgf,treated,
+B2,pdgf,PDGF,10 ng/mL,2,pdgf,treated,
+B3,pdgf,PDGF,10 ng/mL,3,pdgf,treated,

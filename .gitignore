@@ -1,0 +1,39 @@
+# Local environments
+venv/
+.venv/
+env/
+.env
+.env.*
+
+# Python/cache artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS/editor files
+.DS_Store
+.ipynb_checkpoints/
+
+# Generated web analysis jobs and exports
+web_jobs/
+results/
+
+# Local assay image data and generated overlays.
+# Keep small curated fixtures under samples/ tracked.
+images/
+*.TIF
+*.TIFF
+*.tif
+*.tiff
+*_overlay.png
+*_debug.png
+*_open_mask.png
+
+# Runtime logs and temporary archives
+*.log
+*.zip
+*.tar
+*.tar.gz
+

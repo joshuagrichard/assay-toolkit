@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Translational Assay Toolkit</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">AT</span>
+        <span>Assay Toolkit</span>
+      </div>
+      <div class="sidebar-label">Analysis Tools</div>
+      <a class="tool-button" href="/plate-reader">Plate Reader Analyzer</a>
+      <nav id="toolList" class="tool-list"></nav>
+    </aside>
+    <main class="workspace">
+      <section class="topbar">
+        <div>
+          <div class="eyebrow">Translational Research Analysis</div>
+          <h1 id="toolName">Loading tools</h1>
+          <p id="toolDescription"></p>
+        </div>
+        <button id="runButton" type="button">Run Analysis</button>
+      </section>
+
+      <section class="panel setup-panel">
+        <div class="section-heading">
+          <div>
+            <span class="step-label">1</span>
+            <h2>Prepare Run</h2>
+          </div>
+          <p id="selectedFileCount">No files selected</p>
+        </div>
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-inputs">
+            <label>
+              Files
+              <input id="fileInput" type="file" multiple>
+            </label>
+            <label>
+              Folder
+              <input id="folderInput" type="file" multiple webkitdirectory directory>
+            </label>
+          </div>
+          <div>
+            <strong>Upload assay files</strong>
+            <span id="acceptedTypes"></span>
+          </div>
+        </div>
+        <div id="metadataPreview" class="metadata-preview" hidden>
+          <div class="section-heading">
+            <h2>Filename Preview</h2>
+            <p id="metadataPreviewCount"></p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>File</th>
+                  <th>Time</th>
+                  <th>Condition</th>
+                  <th>Well</th>
+                  <th>Field</th>
+                  <th>Group</th>
+                </tr>
+              </thead>
+              <tbody id="metadataPreviewBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <details class="params-panel">
+          <summary>Analysis parameters</summary>
+          <form id="paramsForm" class="params-grid"></form>
+        </details>
+      </section>
+
+      <section class="results">
+        <div class="section-heading">
+          <div>
+            <span class="step-label">2</span>
+            <h2>Run Status</h2>
+          </div>
+          <div id="status" class="status">Choose files and run an assay.</div>
+        </div>
+        <div id="summaryCards" class="summary-cards"></div>
+        <div id="downloads" class="downloads"></div>
+        <pre id="summary" class="summary" hidden></pre>
+      </section>
+
+      <section id="analysisSection" class="analysis-section" hidden>
+        <div class="section-heading">
+          <div>
+            <span class="step-label">3</span>
+            <h2>Results</h2>
+          </div>
+          <p>QC status is included in the reviewed CSV export.</p>
+        </div>
+        <div id="closurePlot" class="closure-plot"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>QC</th>
+                <th>File</th>
+                <th>Time</th>
+                <th>Condition</th>
+                <th>Well</th>
+                <th>Field</th>
+                <th>Geometry</th>
+                <th>Open Area</th>
+                <th>Closure</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="reviewSection" class="review-section" hidden>
+        <div class="review-toolbar">
+          <div>
+            <div class="review-title-row">
+              <span class="step-label">4</span>
+              <h2>Review Detections</h2>
+            </div>
+            <p id="reviewCount"></p>
+          </div>
+          <div class="review-controls">
+            <input id="reviewFilter" type="search" placeholder="Filter filename, well, field">
+            <div class="mode-buttons" aria-label="Image view mode">
+              <button type="button" class="mode-button active" data-mode="overlay">Overlay</button>
+              <button type="button" class="mode-button" data-mode="debug">Debug</button>
+              <button type="button" class="mode-button" data-mode="mask">Mask</button>
+              <button type="button" class="mode-button" data-mode="source">Source</button>
+            </div>
+          </div>
+        </div>
+        <div id="reviewGrid" class="review-grid"></div>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
