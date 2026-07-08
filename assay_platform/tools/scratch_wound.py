@@ -6,7 +6,6 @@ from typing import Any
 
 from assay_platform.core import AnalysisJobResult, AssayTool, ToolParameter
 
-
 DEFAULTS: dict[str, Any] = {
     "wound_geometry_mode": "auto",
     "blur_kernel": 5,

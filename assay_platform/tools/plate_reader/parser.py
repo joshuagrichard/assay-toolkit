@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from io import BytesIO, StringIO
-from pathlib import Path
 import csv
 import re
+from dataclasses import dataclass
+from io import StringIO
+from pathlib import Path
 from typing import Any
 
 import pandas as pd

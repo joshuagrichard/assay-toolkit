@@ -19,8 +19,11 @@ python3.12 -m venv .venv
 # Activate the virtual environment
 source .venv/bin/activate
 
-# Install dependencies
+# Install dependencies (runtime only)
 python -m pip install -r requirements.txt
+
+# For development (editable install + pytest, ruff, httpx)
+python -m pip install -e ".[dev]"
 
 # Start the web app
 python -m uvicorn assay_platform.web_app:app --reload

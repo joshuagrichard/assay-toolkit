@@ -1,10 +1,9 @@
-from pathlib import Path
 import zipfile
+from pathlib import Path
 
 import pandas as pd
-
 from assay_platform.tools.plate_reader.exports import prism_wide, write_exports
-from assay_platform.tools.plate_reader.metrics import auc_for_trace, calculate_well_metrics
+from assay_platform.tools.plate_reader.metrics import auc_for_trace
 from assay_platform.tools.plate_reader.normalization import (
     apply_baseline_normalization,
     apply_blank_subtraction,
@@ -12,7 +11,6 @@ from assay_platform.tools.plate_reader.normalization import (
 )
 from assay_platform.tools.plate_reader.parser import parse_plate_reader_file
 from assay_platform.tools.plate_reader.plate_map import merge_plate_map, normalize_plate_map, validate_analysis_settings
-
 
 SAMPLE = Path("samples/plate_reader/flex_like_sample.txt")
 

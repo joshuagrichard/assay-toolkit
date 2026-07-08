@@ -3,8 +3,6 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-import pandas as pd
-
 from assay_platform.tools.plate_reader.exports import write_exports
 from assay_platform.tools.plate_reader.metrics import calculate_well_metrics, summarize_replicates
 from assay_platform.tools.plate_reader.normalization import process_measurements
