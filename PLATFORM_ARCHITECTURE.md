@@ -24,7 +24,7 @@ This keeps FlexStation calcium, confocal calcium, and scratch/wound analysis ind
 Install the web-only dependencies:
 
 ```bash
-python -m pip install -r requirements-web.txt
+python -m pip install -r requirements.txt
 ```
 
 Then run:
