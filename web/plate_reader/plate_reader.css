@@ -6,42 +6,6 @@
   min-width: 760px;
 }
 
-.plate-hero {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 22px;
-  background: #ffffff;
-  box-shadow: var(--shadow);
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-#analyzeButton {
-  min-width: 150px;
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 18px;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 900;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-}
-
-#analyzeButton:hover {
-  background: var(--accent-dark);
-}
-
-#analyzeButton:disabled {
-  opacity: 0.6;
-  cursor: wait;
-  box-shadow: none;
-}
-
 .elevated-panel {
   border-radius: 14px;
 }
