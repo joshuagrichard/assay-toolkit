@@ -107,7 +107,7 @@ def run_scratch_wound(input_dir: Path, output_dir: Path, params: dict[str, Any])
 
 scratch_wound_tool = AssayTool(
     id="scratch_wound",
-    name="Scratch/Wound Healing Assay",
+    name="Scratch Assay Analyzer",
     category="Image analysis",
     description="Detects the time-0 wound corridor, anchors follow-up ROIs, segments residual open area, and reports closure metrics.",
     accepted_extensions=(".tif", ".tiff", ".png", ".jpg", ".jpeg"),

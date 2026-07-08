@@ -73,6 +73,11 @@ body {
   gap: 8px;
 }
 
+#toolList {
+  display: grid;
+  gap: 8px;
+}
+
 .tool-button {
   display: block;
   width: 100%;

@@ -3,6 +3,10 @@ let activeTool = null;
 let reviewItems = [];
 let activeReviewMode = "overlay";
 
+const TOOL_NAV_LABELS = {
+  scratch_wound: "Scratch Assay Analyzer",
+};
+
 const toolList = document.querySelector("#toolList");
 const toolName = document.querySelector("#toolName");
 const toolDescription = document.querySelector("#toolDescription");
@@ -439,7 +443,7 @@ function renderTools() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `tool-button ${activeTool && activeTool.id === tool.id ? "active" : ""}`;
-    button.textContent = tool.name;
+    button.textContent = TOOL_NAV_LABELS[tool.id] || tool.name;
     button.addEventListener("click", () => selectTool(tool.id));
     toolList.appendChild(button);
   });

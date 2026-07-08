@@ -12,9 +12,11 @@
         <span class="brand-mark">AT</span>
         <span>Assay Toolkit</span>
       </div>
-      <div class="sidebar-label">Analysis Tools</div>
-      <a class="tool-button" href="/plate-reader">Plate Reader Analyzer</a>
-      <nav id="toolList" class="tool-list"></nav>
+      <div class="sidebar-label">Tools</div>
+      <nav class="tool-list">
+        <div id="toolList"></div>
+        <a class="tool-button" href="/plate-reader?nav=tools-sidebar-labels">Plate Reader Analyzer</a>
+      </nav>
     </aside>
     <main class="workspace">
       <section class="topbar">
@@ -142,6 +144,6 @@
         <div id="reviewGrid" class="review-grid"></div>
       </section>
     </main>
-    <script src="/static/app.js"></script>
+    <script src="/static/app.js?v=tools-sidebar-labels"></script>
   </body>
 </html>
