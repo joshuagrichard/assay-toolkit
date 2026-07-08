@@ -7,18 +7,7 @@
     <link rel="stylesheet" href="/static/styles.css">
   </head>
   <body>
-    <aside class="sidebar">
-      <div class="brand">
-        <span class="brand-mark">AT</span>
-        <span>Assay Toolkit</span>
-      </div>
-      <div class="sidebar-label">Tools</div>
-      <nav class="tool-list">
-        <div id="toolList"></div>
-        <a class="tool-button" href="/plate-reader?nav=tools-sidebar-labels">Plate Reader Analyzer</a>
-      </nav>
-    </aside>
-    <main class="workspace">
+    <main id="page-content">
       <section class="topbar">
         <div>
           <div class="eyebrow">Translational Research Analysis</div>
@@ -144,6 +133,7 @@
         <div id="reviewGrid" class="review-grid"></div>
       </section>
     </main>
-    <script src="/static/app.js?v=tools-sidebar-labels"></script>
+    <script type="module" src="/components/pages/mount-scratch.js"></script>
+    <script type="module" src="/static/app.js"></script>
   </body>
 </html>

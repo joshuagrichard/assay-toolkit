@@ -8,15 +8,7 @@
     <link rel="stylesheet" href="/plate-reader-static/plate_reader.css">
   </head>
   <body>
-    <aside class="sidebar">
-      <div class="brand"><span class="brand-mark">AT</span><span>Assay Toolkit</span></div>
-      <nav class="tool-list" aria-label="Tool navigation">
-        <div class="sidebar-label">Tools</div>
-        <a class="tool-button" href="/?nav=tools-sidebar-labels">Scratch Assay Analyzer</a>
-        <a class="tool-button active" href="/plate-reader">Plate Reader Analyzer</a>
-      </nav>
-    </aside>
-    <main class="workspace plate-reader-workspace">
+    <main id="page-content">
       <section class="topbar plate-hero">
         <div>
           <div class="eyebrow">Plate Reader Analysis</div>
@@ -170,6 +162,7 @@
         <p>The parser searches for a header containing standard 96-well names and paired time columns with a T suffix. Blank subtraction uses wells marked role=blank. Vehicle/control normalization uses wells marked role=vehicle or role=control. Statistics are intentionally simple: Welch t-test for two groups, one-way ANOVA for more groups.</p>
       </section>
     </main>
-    <script src="/plate-reader-static/plate_reader.js"></script>
+    <script type="module" src="/components/pages/mount-plate-reader.js"></script>
+    <script type="module" src="/plate-reader-static/plate_reader.js"></script>
   </body>
 </html>

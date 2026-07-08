@@ -10,6 +10,7 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 JOB_ROOT = BASE_DIR / "web_jobs"
 STATIC_DIR = BASE_DIR / "web" / "static"
 PLATE_READER_STATIC_DIR = BASE_DIR / "web" / "plate_reader"
+COMPONENTS_DIR = BASE_DIR / "web" / "components"
 
 
 def _safe_upload_path(filename: str) -> Path | None:
@@ -116,6 +117,7 @@ def create_app():
 
     app = FastAPI(title="Translational Assay Toolkit")
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+    app.mount("/components", StaticFiles(directory=COMPONENTS_DIR), name="components")
 
     @app.get("/")
     def index():
