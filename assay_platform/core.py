@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Dict, Iterable
 
 
 @dataclass(frozen=True)
@@ -49,7 +49,7 @@ class AnalysisJobResult:
         }
 
 
-RunTool = Callable[[Path, Path, dict[str, Any]], AnalysisJobResult]
+RunTool = Callable[[Path, Path, Dict[str, Any]], AnalysisJobResult]
 
 
 @dataclass(frozen=True)

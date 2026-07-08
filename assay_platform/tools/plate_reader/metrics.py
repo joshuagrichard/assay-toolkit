@@ -6,6 +6,13 @@ import numpy as np
 import pandas as pd
 
 
+def _integrate_trapezoid(y: pd.Series, x: pd.Series) -> float:
+    trapezoid = getattr(np, "trapezoid", None)
+    if trapezoid is None:
+        trapezoid = np.trapz
+    return float(trapezoid(y.astype(float), x.astype(float)))
+
+
 def auc_for_trace(trace: pd.DataFrame, value_col: str, start: float | None = None, end: float | None = None) -> float:
     t = trace.sort_values("time").copy()
     if start is not None:
@@ -15,7 +22,7 @@ def auc_for_trace(trace: pd.DataFrame, value_col: str, start: float | None = Non
     t = t.dropna(subset=["time", value_col])
     if len(t) < 2:
         return np.nan
-    return float(np.trapz(t[value_col].astype(float), t["time"].astype(float)))
+    return _integrate_trapezoid(t[value_col], t["time"])
 
 
 def slope_for_trace(trace: pd.DataFrame, value_col: str, start: float | None = None, end: float | None = None) -> float:
@@ -71,4 +78,3 @@ def summarize_replicates(processed: pd.DataFrame, value_col: str = "analysis_val
     summary = summary.rename(columns={"count": "n"})
     summary["sem"] = summary["std"] / np.sqrt(summary["n"].replace(0, np.nan))
     return summary
-

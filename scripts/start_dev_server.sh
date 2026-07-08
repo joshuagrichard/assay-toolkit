@@ -8,4 +8,4 @@ PORT="${1:-8000}"
 
 cd "${ROOT_DIR}"
 echo "Starting Translational Assay Toolkit on http://127.0.0.1:${PORT}"
-exec python -m uvicorn assay_platform.web_app:app --host 127.0.0.1 --port "${PORT}"
+exec python3 -m uvicorn assay_platform.web_app:app --host 127.0.0.1 --port "${PORT}"
