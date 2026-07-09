@@ -116,6 +116,20 @@ body {
   padding: 6px 0 2px;
 }
 
+.page-hero {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .eyebrow {
   margin-bottom: 7px;
   color: var(--accent-dark);
@@ -146,24 +160,27 @@ button {
   font: inherit;
 }
 
-#runButton {
-  min-width: 154px;
+#runButton,
+#analyzeButton {
+  min-width: 150px;
   border: 0;
-  border-radius: 8px;
-  padding: 11px 17px;
+  border-radius: 10px;
+  padding: 12px 18px;
   background: var(--accent);
   color: #fff;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
   box-shadow: var(--shadow);
 }
 
-#runButton:hover {
+#runButton:hover,
+#analyzeButton:hover {
   background: var(--accent-dark);
 }
 
-#runButton:disabled {
-  opacity: 0.58;
+#runButton:disabled,
+#analyzeButton:disabled {
+  opacity: 0.6;
   cursor: wait;
   box-shadow: none;
 }

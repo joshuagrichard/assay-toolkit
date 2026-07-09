@@ -3,11 +3,6 @@ let activeTool = null;
 let reviewItems = [];
 let activeReviewMode = "overlay";
 
-const TOOL_NAV_LABELS = {
-  scratch_wound: "Scratch Assay Analyzer",
-};
-
-const toolList = document.querySelector("#toolList");
 const toolName = document.querySelector("#toolName");
 const toolDescription = document.querySelector("#toolDescription");
 const acceptedTypes = document.querySelector("#acceptedTypes");
@@ -437,18 +432,6 @@ function updateQcDownload() {
   link.download = "scratch_results_reviewed.csv";
 }
 
-function renderTools() {
-  toolList.innerHTML = "";
-  tools.forEach((tool) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `tool-button ${activeTool && activeTool.id === tool.id ? "active" : ""}`;
-    button.textContent = TOOL_NAV_LABELS[tool.id] || tool.name;
-    button.addEventListener("click", () => selectTool(tool.id));
-    toolList.appendChild(button);
-  });
-}
-
 function renderParameters() {
   paramsForm.innerHTML = "";
   activeTool.parameters.forEach((param) => {
@@ -484,7 +467,6 @@ function selectTool(toolId) {
   toolName.textContent = activeTool.name;
   toolDescription.textContent = activeTool.description;
   acceptedTypes.textContent = `Accepted: ${activeTool.accepted_extensions.join(", ")}`;
-  renderTools();
   renderParameters();
 }
 
